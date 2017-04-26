@@ -1,0 +1,64 @@
+﻿@model ContactInformation.Models.ContactInformation
+ 
+@{
+    ViewBag.Title = "UpdateContactInformation";
+}
+
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>EmployeeModel</legend>
+        <table width="100%">
+            <tr>
+                <td>@Html.LabelFor(model => model.ContactInfoId) </td>
+                <td>
+                    @Html.EditorFor(model => model.FirstName)
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.LastName )</td>
+            <td>
+                @Html.EditorFor(model => model.LastName )
+                @Html.ValidationMessageFor(model => model.LastName )
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(model => model.Email )</td>
+            <td>
+                @Html.EditorFor(model => model.Email )
+                @Html.ValidationMessageFor(model => model.Email )
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(model => model.PhoneNumber )</td>
+            <td>
+                @Html.EditorFor(model => model.PhoneNumber )
+                @Html.ValidationMessageFor(model => model.PhoneNumber )
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>@Html.LabelFor(model => model.Status)</td>
+            <td>
+                @Html.EditorFor(model => model.Status )
+                @Html.ValidationMessageFor(model => model.Status)
+            </td>
+        </tr>
+
+       
+        <tr>
+            <td></td>
+            <td>
+                <button type="submit" id="btnSave" name="Command" value="Save" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                    <span class="ui-button-text">Save</span>
+                </button>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+ 

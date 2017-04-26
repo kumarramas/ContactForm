@@ -1,0 +1,75 @@
+﻿@using Kendo.Mvc.UI
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+.k-tooltip-validation.k-invalid-msg
+{
+    display:inline-block;
+    position: relative;
+}
+</style>
+
+@model IEnumerable<ContactInformation.Models.ContactInformation>
+
+@(Html.Kendo().Grid(Model)
+        .Name("Grid")
+        .Columns(columns =>
+        {
+            columns.Bound(p => p.FirstName).Title("First Name");
+            columns.Bound(p => p.LastName).Title("Last Name");
+            columns.Bound(p => p.Email).Title("Email");
+            columns.Bound(p => p.PhoneNumber).Title("PhoneNumber");
+            columns.Bound(p => p.Status).Title("Active").Hidden();
+            columns.Command(command => { command.Edit(); command.Destroy(); }).Width(250);
+        })
+        .ToolBar(toolbar => toolbar.Create().Text("Add new contact"))
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).Window(w => w.Title("Contact information")))
+        .Pageable()
+        .Scrollable()
+        .HtmlAttributes(new { style = "height:550px;" })
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .PageSize(20)
+            .Events(events => {
+                events.Error("error_handler");
+                events.RequestEnd("request_end");
+            }
+            )
+        .Model(model => model.Id(p => p.ContactInfoId))
+        .Create(update => update.Action("UpdateContactInfo", "ContactInfo"))
+        .Read(read => read.Action("GetContactInfo", "ContactInfo"))
+        .Update(update => update.Action("UpdateContactInfo", "ContactInfo"))
+        .Destroy(destroy => destroy.Action("RemoveContactInfo", "ContactInfo"))
+    )
+)
+
+  <script type="text/javascript">
+      function request_end(e) {
+
+          if (e.type == "create") {
+              $("#Grid").data("kendoGrid").refresh();
+          }
+          return true;
+      }
+ </script>
+
+
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+
